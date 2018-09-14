@@ -1,8 +1,8 @@
 {
   "name": "lc3poc",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Proof of concept to use independent package for lc3",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode production",
