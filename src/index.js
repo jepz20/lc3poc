@@ -20,7 +20,6 @@ class LC3Screen extends React.Component {
     fetch(`http://www.omdbapi.com/?s=${this.state.title}&apikey=27defc43`)
       .then(res => res.json())
       .then(({ Search: data } = {}) => {
-        console.log(data, 'DATA');
         this.setState({ data, err: null });
       })
       .catch(err => {

@@ -65,8 +65,6 @@ function (_React$Component) {
         var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
             data = _ref.Search;
 
-        console.log(data, 'DATA');
-
         _this2.setState({
           data: data,
           err: null
