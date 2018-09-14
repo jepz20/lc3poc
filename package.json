@@ -1,6 +1,6 @@
 {
   "name": "lc3poc",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Proof of concept to use independent package for lc3",
   "main": "dist/index.js",
   "scripts": {
