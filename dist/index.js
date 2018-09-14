@@ -59,9 +59,14 @@ function (_React$Component) {
     value: function doFetch() {
       var _this2 = this;
 
-      fetch("http://www.omdbapi.com/?t=".concat(this.state.title, "&apikey=27defc43")).then(function (res) {
+      fetch("http://www.omdbapi.com/?s=".concat(this.state.title, "&apikey=27defc43")).then(function (res) {
         return res.json();
-      }).then(function (data) {
+      }).then(function () {
+        var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+            data = _ref.Search;
+
+        console.log(data, 'DATA');
+
         _this2.setState({
           data: data,
           err: null
@@ -74,25 +79,64 @@ function (_React$Component) {
       });
     }
   }, {
+    key: "handleSelected",
+    value: function handleSelected(data) {
+      if (this.state.selected && this.state.selected.imdbID === data.imdbID) {
+        this.setState({
+          selected: null
+        });
+        return;
+      }
+
+      this.setState({
+        selected: data
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this3 = this;
 
-      var _this$props = this.props,
-          Input = _this$props.Input,
-          Image = _this$props.Image,
-          _this$props$user = _this$props.user,
+      var _this$props$user = this.props.user,
           user = _this$props$user === void 0 ? {} : _this$props$user;
+      var cellStyle = {
+        textAlign: 'left',
+        padding: '0.25em'
+      };
+      var headerStyle = {
+        color: '#2e3061',
+        fontFamily: 'Open Sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Helvetica", "Arial", sans-serif',
+        fontSize: '40px',
+        fontWeight: '700'
+      };
+      var popStyle = {
+        position: 'fixed',
+        height: '100%',
+        width: '300px',
+        top: 0,
+        right: 30,
+        backgroundColor: 'grey',
+        padding: '16px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column'
+      };
       return _react.default.createElement("div", {
         style: {
-          display: 'flex',
-          alignItems: 'center',
-          flexDirection: 'column'
+          margin: '50px'
         }
-      }, _react.default.createElement("h1", null, this.state.name), _react.default.createElement("div", null, _react.default.createElement("h3", null, "USER"), _react.default.createElement("div", null, "Name: ".concat(user.name)), _react.default.createElement("div", null, "Email: ".concat(user.email))), _react.default.createElement("input", {
+      }, _react.default.createElement("h1", {
+        style: headerStyle
+      }, this.state.name), _react.default.createElement("div", {
+        style: {
+          margin: '10px 0 10px',
+          border: '1px solid black'
+        }
+      }, _react.default.createElement("h3", null, "USER"), _react.default.createElement("div", null, "Name: ".concat(user.name)), _react.default.createElement("div", null, "Email: ".concat(user.email))), _react.default.createElement("input", {
         value: this.state.title,
-        onChange: function onChange(_ref) {
-          var target = _ref.target;
+        onChange: function onChange(_ref2) {
+          var target = _ref2.target;
           return _this3.setState({
             title: target.value
           });
@@ -101,9 +145,36 @@ function (_React$Component) {
           return e && e.key === 'Enter' && _this3.doFetch();
         },
         name: "search"
-      }), this.state.data && _react.default.createElement("div", null, _react.default.createElement("div", null, "Title: ".concat(this.state.data.Title)), _react.default.createElement("div", null, "Release Year: ".concat(this.state.data.Year)), _react.default.createElement("img", {
-        src: this.state.data.Poster,
-        alt: "poster"
+      }), _react.default.createElement("table", {
+        style: {
+          width: '100%'
+        }
+      }, _react.default.createElement("tbody", null, _react.default.createElement("tr", null, _react.default.createElement("th", {
+        style: cellStyle
+      }, "Title"), _react.default.createElement("th", {
+        style: cellStyle
+      }, "Release Year"), _react.default.createElement("th", {
+        style: cellStyle
+      }, "Type")), this.state.data && this.state.data.map(function (data) {
+        return _react.default.createElement("tr", {
+          key: data.imdbID,
+          onClick: function onClick() {
+            return _this3.handleSelected(data);
+          }
+        }, _react.default.createElement("td", {
+          style: cellStyle
+        }, data.Title), _react.default.createElement("td", {
+          style: cellStyle
+        }, data.Year), _react.default.createElement("td", {
+          style: cellStyle
+        }, data.Type));
+      }))), this.state.selected && _react.default.createElement("div", {
+        style: popStyle
+      }, _react.default.createElement("div", {
+        style: headerStyle
+      }, this.state.selected.Title), _react.default.createElement("img", {
+        src: this.state.selected.Poster,
+        alt: "sample"
       })), this.state.error && _react.default.createElement("div", null, "Ooops! something bad happen :/"));
     }
   }]);
@@ -112,8 +183,6 @@ function (_React$Component) {
 }(_react.default.Component);
 
 LC3Screen.propTypes = {
-  Input: _propTypes.default.func.isRequired,
-  Image: _propTypes.default.func.isRequired,
   user: _propTypes.default.object.isRequired
 };
 var _default = LC3Screen;
